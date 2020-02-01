@@ -1,94 +1,98 @@
-#!/bin/bash -x
+#!/bin/bash 
 
-declare -A flips
+declare -A flipsDictionary
 
 #constant
-Head=0;
-Tail=1;
+HEAD=0;
+TAIL=1;
 
-
-function  flipcoin() {
-	for ((i=0;i<$1;i++))
+function  flipCoin() {
+	local loop=$1
+	local coin=$2
+	for ((i=0;i<$loop;i++))
 	do
-		flps=""
-		for ((j=0;j<$2;j++))
+		flipCombination=""
+		for ((j=0;j<$coin;j++))
 		do
-			if (( $((RANDOM%2)) == $Head ))
+			if (( $((RANDOM%2)) == $HEAD ))
 			then
-				flps+=H
+				flipCombination+=H
 			else
-				flps+=T
+				flipCombination+=T
 			fi
 		done
-      flips[$flps]=$((${flips[$flps]}+1))
-   done
-   percentageCalculation 
+		flipsDictionary[$flipCombination]=$((${flipsDictionary[$flipCombination]}+1))
+	done
+	percentageCalculation 
 }
-
-
 
 function percentageCalculation() {
-	for i in ${!flips[@]}
+	for i in ${!flipsDictionary[@]}
 	do
-		echo " percentage of occuring $1= `echo "scale=2; ${flips[$i]}*100/$loop" | bc`%"
+		echo " percentage of occuring $1= `echo "scale=2; ${flipsDictionary[$i]}*100/$loop" | bc`%"
 	done
 }
 
-
-
 function sortingData() {
-	for i in ${!flips[@]}
+	for i in ${!flipsDictionary[@]}
 	do
-		for j in ${!flips[@]}
+		for j in ${!flipsDictionary[@]}
 		do
 			k=$j
-			if (( ${flips[$i]} > ${flips[$j]} ))
+			if (( ${flipsDictionary[$i]} > ${flipsDictionary[$j]} ))
 			then
-				temp=${flips[$i]}
-				flips[$i]=${flips[$j]}
-				flips[$j]=$temp  
+				temp=${flipsDictionary[$i]}
+				flipsDictionary[$i]=${flipsDictionary[$j]}
+				flipsDictionary[$j]=$temp  
 			fi
 		done
 	done
 }
 
-function winingcombination() {
-	for i in ${!flips[@]}
+function winingCombination() {
+	for i in ${!flipsDictionary[@]}
 	do
-		echo " wining combination is $i =  ${flips[$i]}"
+		echo " wining combination is $i =  ${flipsDictionary[$i]}"
 		break
 	done
 }
 
 function makeDictionaryEmpty() {
-	for i in ${!flips[@]}
+	for i in ${!flipsDictionary[@]}
 	do
-		unset flips[$i]
+		unset flipsDictionary[$i]
 	done
 }
 
+function inputs() {
+	echo "                          Welcome To the flipCoin Simulator"
+   read -p "Select the option  for flip:  1)Singlet  2)Doublet   3)Triplet  " option
+   read -p "How many times you want to Flip Coin  " loop
+}
+
+
+function displayData() {
+	echo "total Combinations:  ${!flipsDictionary[@]}"
+
+}
 
 #########################################    Main Programm ###################
 
+x=1
 
-
-while ((1))
+while (( $x==1 ))
 do
 	makeDictionaryEmpty
-	echo "                          Welcome To the Flipcoin Simulator"
-	read -p "Enter 1/0 to start stimulator  " x
-	if (( $x == 1 ))
-	then
-		read -p "Select the option  for flip:  1)Singlet  2)Doublet   3)Triplet  " option
-		read -p "How many times you want to Flip Coin  " loop
-		flipcoin $loop $option
-		sortingData
-		echo "value of echo combination: ${flips[@]}"
-		echo "total Combinations:  ${!flips[@]}"
-		winingcombination
-	else
-		break
-	fi
+	inputs
+	flipCoin $loop $option
+	sortingData
+	echo "value of echo combination: ${flipsDictionary[@]}"
+	echo "value of echo combination: ${!flipsDictionary[@]}"
+
+
+	#diaplayData
+	winingCombination
+	read -p "Enter 1 to continue   " x
 done
 
 
