@@ -32,7 +32,6 @@ function percentageCalculation(){
    do
       echo "$i= ${flips[$i]}"
       echo " percentage of occuring $1= `echo "scale=2; ${flips[$i]}*100/$loop" | bc`%"
-      echo "$i"
    done
 }
 
