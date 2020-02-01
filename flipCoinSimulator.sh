@@ -50,11 +50,9 @@ function sortingData() {
 }
 
 function winingCombination() {
-	for i in ${!flipsDictionary[@]}
-	do
-		echo " wining combination is $i =  ${flipsDictionary[$i]}"
-		break
-	done
+	keys=(${!flipsDictionary[@]})
+	echo " wining Combination is = ${keys[0]}"
+
 }
 
 function makeDictionaryEmpty() {
@@ -66,15 +64,12 @@ function makeDictionaryEmpty() {
 
 function inputs() {
 	echo "                          Welcome To the flipCoin Simulator"
-   read -p "Select the option  for flip:  1)Singlet  2)Doublet   3)Triplet  " option
-   read -p "How many times you want to Flip Coin  " loop
+	read -p "Select the option  for flip:  1)Singlet  2)Doublet   3)Triplet  " option
+	read -p "How many times you want to Flip Coin  " loop
 }
 
 
-function displayData() {
-	echo "total Combinations:  ${!flipsDictionary[@]}"
 
-}
 
 #########################################    Main Programm ###################
 
@@ -88,9 +83,6 @@ do
 	sortingData
 	echo "value of echo combination: ${flipsDictionary[@]}"
 	echo "value of echo combination: ${!flipsDictionary[@]}"
-
-
-	#diaplayData
 	winingCombination
 	read -p "Enter 1 to continue   " x
 done
