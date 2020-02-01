@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash -x
 
 declare -A flips
 
@@ -60,26 +60,31 @@ function winingcombination() {
 	done
 }
 
+function makeDictionaryEmpty() {
+	for i in ${!flips[@]}
+	do
+		unset flips[$i]
+	done
+}
+
+
 #########################################    Main Programm ###################
 
 
 
 while ((1))
 do
-	for i in ${!flips[@]}
-	do
-		unset flips[$i]
-	done
+	makeDictionaryEmpty
 	echo "                          Welcome To the Flipcoin Simulator"
-	read -p "Enter 1/0 to start stimulator" x
+	read -p "Enter 1/0 to start stimulator  " x
 	if (( $x == 1 ))
 	then
-		read -p "Select the option  for flip:  1)Singlet  2)Doublet   3)Triplet" option
-		read -p "How many times you want to Flip Coin" loop
+		read -p "Select the option  for flip:  1)Singlet  2)Doublet   3)Triplet  " option
+		read -p "How many times you want to Flip Coin  " loop
 		flipcoin $loop $option
 		sortingData
-		echo "${flips[@]}"
-		echo "${!flips[@]}"
+		echo "value of echo combination: ${flips[@]}"
+		echo "total Combinations:  ${!flips[@]}"
 		winingcombination
 	else
 		break
