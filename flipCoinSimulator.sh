@@ -30,11 +30,38 @@ do
 function percentageCalculation(){
    for i in ${!flips[@]}
    do
-      echo "$i= ${flips[$i]}"
       echo " percentage of occuring $1= `echo "scale=2; ${flips[$i]}*100/$loop" | bc`%"
    done
 }
 
+
+
+function sortingData(){
+  for i in ${!flips[@]}
+   do
+   #  j=$i
+      for j in ${!flips[@]}
+      do
+         k=$j
+         if (( ${flips[$i]} > ${flips[$j]} ))
+         then
+            temp=${flips[$i]}
+            flips[$i]=${flips[$j]}
+            flips[$j]=$temp  
+      #  echo ${flips[$k]}
+         fi
+      done
+  done
+}
+
+function winingcombination(){
+   for i in ${!flips[@]}
+   do
+      echo " wining combination is $i =  ${flips[$i]}"
+      break
+   done
+}
+#########################################    Main Programm ###################
 
 while ((1))
 
@@ -51,8 +78,10 @@ do
       read -p "Select the option  for flip:  1)Singlet  2)Doublet   3)Triplet" option
       read -p "How many times you want to Flip Coin" loop
       flipcoin $loop $option
-      echo " all values " ${flips[@]}
-      echo "${!flips[@]}"
+		sortingData
+     echo "${flips[@]}"
+     echo "${!flips[@]}"
+     winingcombination
    else
       break
    fi
